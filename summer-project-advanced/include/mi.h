@@ -25,6 +25,7 @@ SDL_Texture *loadTexture(Win *app, char *img_path);
 int input_handler();
 int input_handler_menu(Entity *entity, int cnt);
 int input_handler_personatisation(int choice);
+int input_handler_setting(int choice);
 // event
 Player *initPlayer();
 Entity *updateEnnemy(Entity *entity, int i);

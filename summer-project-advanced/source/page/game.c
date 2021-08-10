@@ -12,7 +12,6 @@ Player *game(Player *user)
     int vie     = 3;
     int status  = 0;
     int vitesse = 1;
-    int nEnnemy = 4;
     char str[50];
 
     Entity *background1     = malloc(sizeof(Entity));
@@ -29,7 +28,7 @@ Player *game(Player *user)
     Entity *player          = malloc(sizeof(Entity));
     player                  = generatePLayer(app,player,user->spaceShip);
     
-    Ennemys *ennemys        = generateEnnemys(app,nEnnemy);
+    Ennemys *ennemys        = generateEnnemys(app,user->nEnnemy);
     Ennemys *ennemysB       = malloc(sizeof(Ennemys));
     
 
@@ -39,7 +38,7 @@ Player *game(Player *user)
         // pause
         //while (input_handler(player)) {}
         score++;
-        if (score % 1000 == 0)
+        if (score % 200 == 0)
         {
             score = 0;
             user->money++;
@@ -61,27 +60,28 @@ Player *game(Player *user)
 
         // ennemy
 
-        ennemys  = updateEnnemys(app,ennemys,nEnnemy,vitesse);
+        ennemys  = updateEnnemys(app,ennemys,user->nEnnemy,vitesse);
         ennemysB = ennemys;
-        for (int k = 0 ; k < nEnnemy ; k++)
+        for (int k = 0 ; k < user->nEnnemy ; k++)
         {
             if (ennemysB->ennemy->pos_x <= 60)
             {
                 if(inInterval(ennemysB->ennemy->pos_y,player->pos_y,player->pos_y - 70) || inInterval(ennemysB->ennemy->pos_y - ennemysB->ennemy->height,player->pos_y,player->pos_y - 70) || inInterval(player->pos_y ,ennemysB->ennemy->pos_y, ennemysB->ennemy->pos_y - ennemysB->ennemy->height) || inInterval(player->pos_y - 70,ennemysB->ennemy->pos_y, ennemysB->ennemy->pos_y - ennemysB->ennemy->height))
                 {
                     explosion(app,player,ennemysB->ennemy);
+                    SDL_Delay(100);
                     vie--;
                     if (vie <= 0)
                         gameOver(app);
-                    ennemysB->ennemy = generateEnnemy(app, ennemysB->order,nEnnemy);
+                    ennemysB->ennemy = generateEnnemy(app, ennemysB->order,user->nEnnemy);
                 }
             }
             drawEntity(app, ennemysB->ennemy);
             ennemysB = ennemysB->next;
         }
         // score
-        drawString(app,"Score :    ", 4, 0, 100, 50, 0);
-        sprintf(str,"%d",score);
+        drawString(app,"Money :    ", 4, 0, 100, 50, 0);
+        sprintf(str,"%d",user->money);
         drawString(app,str, 104, 0, 60, 50, 1);
 
         // vie
@@ -93,6 +93,8 @@ Player *game(Player *user)
             }
         }
         presentCanvas(app);
+        if (vie <= 0)
+            SDL_Delay(1500);
         SDL_Delay(15);
     }
     /*if (vie == 0 && (status = input_handler(player)) >= 0)

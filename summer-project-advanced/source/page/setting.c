@@ -1,27 +1,27 @@
 #include "mi.h"
 
 Player *setting(Player *user)
-{/*
+{
     Win *app = malloc(sizeof(Win));
-    Entity *curser = malloc(sizeof(Entity));
     Entity *background = malloc(sizeof(Entity));
 
     int vitesse = 30;
     int choice = 0;
+    char str[50];
 
-    if (initSDL(app,0) < 0){
-        return -1;
-    }
+    initSDL(app,0);
 
     user = initPlayer();
-    background = generateBackground(app,background,0);
-    curser = generateCurser(app,curser);
+    background = generateBackground(app,background,3);
     
-    while((choice = input_handler_menu(curser,choice)) < 3)
+    while((choice = input_handler_setting(choice)) < 3)
     {
         prepareCanvas(app);
         drawEntity(app, background);
-        drawEntity(app, curser);
+        user->nEnnemy = 3 + choice;
+        drawString(app,"Number of ennemy :    ", 70, WINDOW_HEIGHT_PERSONNALISATION/2 - 50, 250, 50, 0);
+        sprintf(str,"%d",user->nEnnemy);
+        drawString(app,str, 320, WINDOW_HEIGHT_PERSONNALISATION/2 - 50, 60, 50, 1);
         presentCanvas(app);
         SDL_Delay(vitesse);
     }
@@ -31,24 +31,7 @@ Player *setting(Player *user)
     SDL_DestroyRenderer(app->renderer);
     SDL_DestroyWindow(app->window);
     free(app);
-    free(curser);
     free(background);
 
-    switch (choice % 3)
-    {
-    case 0:
-        menu(game(user));
-        break;
-    case 1:
-        menu(setting(user));
-        break;
-    case 2:
-        menu(personalisation(user));
-        break;
-    default:
-        break;
-    }
-    //saveUser(user);
-    return 0;*/
     return user;
 }

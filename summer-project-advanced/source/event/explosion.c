@@ -7,6 +7,5 @@ void explosion(Win *app, Entity *player, Entity *ennemy)
     explosion->pos_y = moyen(ennemy->pos_y,player->pos_y);
     explosion->pos_x = moyen(ennemy->pos_x,player->pos_x);
     drawEntity(app,explosion);
-    SDL_Delay(100);
     free(explosion);
 }

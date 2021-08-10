@@ -1,10 +1,10 @@
 #include "mi.h"
 
-int input_handler(Entity *entity) 
+int input_handler_setting(int choice)
 {
     SDL_Event event;
     SDL_PollEvent(&event);
-    int responce = 0;
+    int count = choice;
     switch (event.type)
     {
     case SDL_QUIT :
@@ -12,19 +12,25 @@ int input_handler(Entity *entity)
     case SDL_KEYDOWN :
         switch (event.key.keysym.sym)
         {
-        case SDLK_UP:
-            if(entity->pos_y - 15 >= 0)
-                entity->pos_y -= 15;
+        case SDLK_LEFT:
+            if(count > 0)
+            {
+                count--;
+            }
             break;
-        case SDLK_DOWN:
-            if((entity->pos_y + 80)+ 15 <= WINDOW_HEIGHT_GAME)       
-                entity->pos_y += 15;
+        case SDLK_RIGHT:
+            if(count < 2)
+            {
+                count++;
+            }
             break;
-        case SDLK_p:
-            responce = 1;
+        case SDLK_SPACE:
+            count += 3;
             break;
         case SDLK_ESCAPE:
-            responce = -1;
+            count = 6;
+            break;
+        default:
             break;
         }
         break;
@@ -33,5 +39,5 @@ int input_handler(Entity *entity)
     default:
         break;
     }
-    return responce;
+    return count;
 }

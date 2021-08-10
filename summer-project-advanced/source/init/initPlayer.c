@@ -19,6 +19,7 @@ Player *initPlayer()
             player->spaceShip = atoi(strtok(NULL, ","));
             player->money = atoi(strtok(NULL, ","));
             player->armement = strtok(NULL, ",");
+            player->nEnnemy = atoi(strtok(NULL, ","));
         }
     }
     
